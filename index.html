@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Gaitonde — Senior Engineering Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e16;
+    --bg-2:#0d1320;
+    --surface:rgba(255,255,255,0.025);
+    --surface-2:rgba(255,255,255,0.045);
+    --line:rgba(255,255,255,0.09);
+    --text:#e8edf5;
+    --muted:#8b99ad;
+    --faint:#5d6a7d;
+    --accent:#5fe3c6;
+    --accent-2:#f6b45a;
+    --accent-soft:rgba(95,227,198,0.14);
+    --display:"Bricolage Grotesque", sans-serif;
+    --body:"IBM Plex Sans", sans-serif;
+    --mono:"IBM Plex Mono", monospace;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#06120e;}
+
+  /* atmospheric background layers */
+  .bg-glow{position:fixed;inset:0;z-index:-3;pointer-events:none;
+    background:
+      radial-gradient(700px 500px at 78% -5%, rgba(95,227,198,0.16), transparent 60%),
+      radial-gradient(620px 480px at 8% 12%, rgba(106,167,255,0.10), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(246,180,90,0.07), transparent 60%),
+      linear-gradient(180deg,var(--bg),var(--bg-2));
+  }
+  .bg-grid{position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%);
+    -webkit-mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%);
+  }
+  .bg-grain{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  #nodes{position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-1;pointer-events:none;opacity:.55;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;
+    backdrop-filter:blur(10px);
+    background:linear-gradient(180deg,rgba(10,14,22,0.82),rgba(10,14,22,0));
+    transition:background .3s,border-color .3s;
+    border-bottom:1px solid transparent;
+  }
+  nav.scrolled{background:rgba(10,14,22,0.9);border-bottom:1px solid var(--line);}
+  nav .brand{font-family:var(--mono);font-size:13px;letter-spacing:.5px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:9px;}
+  nav .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);}
+  nav .links{display:flex;gap:26px;}
+  nav .links a{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;letter-spacing:.3px;transition:color .2s;}
+  nav .links a:hover{color:var(--accent);}
+  @media(max-width:720px){nav .links{display:none;}}
+
+  /* hero */
+  header.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:120px 0 80px;}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .kicker::before{content:"";width:34px;height:1px;background:var(--accent);display:inline-block;}
+  h1.name{font-family:var(--display);font-weight:800;font-size:clamp(48px,9vw,104px);line-height:.95;letter-spacing:-2px;
+    margin-bottom:18px;}
+  h1.name .l2{display:block;background:linear-gradient(120deg,var(--text) 30%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero .tag{font-size:clamp(17px,2.4vw,22px);color:var(--muted);max-width:640px;font-weight:400;margin-bottom:14px;}
+  .hero .tag b{color:var(--text);font-weight:600;}
+  .hero .place{font-family:var(--mono);font-size:13px;color:var(--faint);margin-bottom:34px;display:flex;align-items:center;gap:8px;}
+  .hero .place svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:1.6;}
+  .cta{display:flex;flex-wrap:wrap;gap:13px;}
+  .btn{font-family:var(--mono);font-size:13px;text-decoration:none;padding:12px 20px;border-radius:9px;display:inline-flex;align-items:center;gap:9px;
+    transition:transform .2s,border-color .2s,background .2s,color .2s;border:1px solid var(--line);color:var(--text);}
+  .btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.7;}
+  .btn.primary{background:var(--accent);color:#06120e;border-color:var(--accent);font-weight:500;}
+  .btn.primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(95,227,198,0.3);}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-3px);}
+
+  /* sections */
+  section{padding:88px 0;position:relative;}
+  .seclabel{font-family:var(--mono);font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-2);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+  .seclabel .num{color:var(--faint);}
+  h2.sec{font-family:var(--display);font-weight:700;font-size:clamp(28px,4.4vw,42px);letter-spacing:-1px;margin-bottom:30px;line-height:1.05;}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start;}
+  .about-grid p{font-size:17px;color:#cfd8e4;}
+  .about-grid p + p{margin-top:16px;}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:28px;}}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 18px;transition:transform .25s,border-color .25s,background .25s;}
+  .stat:hover{transform:translateY(-4px);border-color:var(--accent);background:var(--surface-2);}
+  .stat .v{font-family:var(--display);font-weight:700;font-size:34px;color:var(--accent);letter-spacing:-1px;}
+  .stat .k{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;line-height:1.4;}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* experience timeline */
+  .company{margin-bottom:38px;}
+  .company-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    padding-bottom:12px;margin-bottom:8px;border-bottom:1px solid var(--line);}
+  .company-head .cn{font-family:var(--display);font-weight:700;font-size:22px;}
+  .company-head .cl{font-family:var(--mono);font-size:12px;color:var(--faint);}
+  .role{position:relative;padding:18px 0 18px 26px;border-left:1px solid var(--line);margin-left:4px;}
+  .role::before{content:"";position:absolute;left:-5px;top:24px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);transition:box-shadow .25s,background .25s;}
+  .role:hover::before{background:var(--accent);box-shadow:0 0 12px var(--accent);}
+  .role .rh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .role .rt{font-size:17px;font-weight:600;color:var(--text);}
+  .role .rd{font-family:var(--mono);font-size:12px;color:var(--accent);white-space:nowrap;}
+  .role .rl{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin:2px 0 10px;}
+  .role ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .role li{position:relative;padding-left:18px;font-size:14.5px;color:#c2ccd9;}
+  .role li::before{content:"▹";position:absolute;left:0;color:var(--accent);font-size:13px;}
+
+  /* expertise */
+  .exp-group{margin-bottom:24px;}
+  .exp-group h3{font-family:var(--mono);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .tags{display:flex;flex-wrap:wrap;gap:9px;}
+  .tag{font-family:var(--mono);font-size:12.5px;padding:7px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--line);color:#d6deea;transition:transform .18s,border-color .18s,color .18s;cursor:default;}
+  .tag:hover{transform:translateY(-3px);border-color:var(--accent);color:var(--accent);}
+
+  /* education */
+  .edu{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .edu-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .25s,border-color .25s;}
+  .edu-card:hover{transform:translateY(-5px);border-color:var(--accent-2);}
+  .edu-card .yr{font-family:var(--mono);font-size:11.5px;color:var(--accent-2);margin-bottom:10px;}
+  .edu-card .inst{font-family:var(--display);font-weight:600;font-size:17px;line-height:1.25;margin-bottom:6px;}
+  .edu-card .deg{font-size:13.5px;color:var(--muted);}
+  @media(max-width:760px){.edu{grid-template-columns:1fr;}}
+
+  /* awards */
+  .awards{display:flex;flex-direction:column;gap:12px;}
+  .award{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;transition:border-color .2s,transform .2s;}
+  .award:hover{border-color:var(--accent);transform:translateX(5px);}
+  .award .ico{font-family:var(--mono);color:var(--accent-2);font-size:14px;margin-top:1px;}
+  .award p{font-size:14.5px;color:#cdd6e2;}
+
+  /* footer cta */
+  footer{padding:88px 0 60px;border-top:1px solid var(--line);margin-top:30px;text-align:center;position:relative;}
+  footer h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,52px);letter-spacing:-1.5px;margin-bottom:16px;}
+  footer h2 span{color:var(--accent);}
+  footer .sub{color:var(--muted);margin-bottom:30px;}
+  footer .cta{justify-content:center;}
+  .copy{margin-top:48px;font-family:var(--mono);font-size:11.5px;color:var(--faint);}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+  .hero .anim{opacity:0;transform:translateY(20px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards;}
+  .hero .d1{animation-delay:.05s;} .hero .d2{animation-delay:.18s;} .hero .d3{animation-delay:.31s;}
+  .hero .d4{animation-delay:.44s;} .hero .d5{animation-delay:.57s;} .hero .d6{animation-delay:.7s;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+  @media(prefers-reduced-motion:reduce){.reveal,.hero .anim{opacity:1!important;transform:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+<div class="bg-grain"></div>
+<canvas id="nodes"></canvas>
+
+<nav id="nav">
+  <a href="#top" class="brand"><span class="dot"></span>aditya.gaitonde</a>
+  <div class="links">
+    <a href="#about">about</a>
+    <a href="#experience">experience</a>
+    <a href="#expertise">expertise</a>
+    <a href="#education">education</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker anim d1">Senior Engineering Manager</div>
+    <h1 class="name anim d2">Aditya<span class="l2">Gaitonde</span></h1>
+    <p class="tag anim d3">Building and scaling <b>large-scale cloud infrastructure</b> and <b>distributed systems</b> — and the high-performing teams behind them.</p>
+    <div class="place anim d4">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      Seattle, Washington
+    </div>
+    <div class="cta anim d5">
+      <a class="btn ghost" href="https://www.linkedin.com/in/aditya-gaitonde-ba047317" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn ghost" href="https://github.com/adityagai" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="seclabel reveal"><span class="num">01</span> / About</div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>Engineering leader with <b style="color:var(--text)">12+ years</b> building and scaling large-scale distributed systems and cloud infrastructure, including 4+ years managing high-performing teams at Oracle Cloud Infrastructure (OCI).</p>
+        <p>Proven record of delivering fully managed, highly available platform services — real-time data streaming, Kubernetes and cloud-native infrastructure, and SaaS control planes — at global, multi-tenant scale. Early career spans AI/ML and natural-language-processing systems at IBM Watson.</p>
+        <p>Strong at hiring, mentoring, and growing teams while driving architecture, reliability, and operational excellence for mission-critical services.</p>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><div class="v">12+</div><div class="k">Years in<br>engineering</div></div>
+        <div class="stat"><div class="v">20+</div><div class="k">Engineers &amp;<br>2 managers led</div></div>
+        <div class="stat"><div class="v">100+</div><div class="k">OCI regions /<br>35+ realms</div></div>
+        <div class="stat"><div class="v">99.99%</div><div class="k">Availability<br>SLA</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="seclabel reveal"><span class="num">02</span> / Experience</div>
+    <h2 class="sec reveal">Where I've built &amp; led</h2>
+
+    <div class="company reveal">
+      <div class="company-head"><span class="cn">Oracle — Oracle Cloud Infrastructure (OCI)</span><span class="cl">Seattle, WA / Redwood Shores, CA</span></div>
+
+      <div class="role">
+        <div class="rh"><span class="rt">Senior Engineering Manager &amp; Service Owner</span><span class="rd">Aug 2024 – Present</span></div>
+        <div class="rl">Seattle, WA · Hybrid</div>
+        <ul>
+          <li>Lead a distributed US-based engineering organization of up to 20 engineers and 2 managers across the multiple platform engineering teams such as, Pegasus, API Catalogue, and Oracle Managed Kubernetes (OMK) platforms — owning service strategy, roadmap execution, operations, and customer adoption.</li>
+          <li>Delivered General Availability (GA) of multiple web services across 100+ OCI regions and 35+ realms and stabilized the services with 99.99% availability SLA.</li>
+          <li>Drove customer adoption across 40+ OCI services improving onboarding experience and ecosystem integration for delivered GA services.</li>
+          <li>Built AI-driven engineering workflows — a Pegasus Service Generation AI-powered customer-outreach tooling for OMK onboarding — and applied AI and automation to reporting, estimation, and planning to significantly improve team productivity.</li>
+          <li>Delivered executive-level reporting on operational health, KPIs, and roadmap progress, presenting technical strategy and platform vision to VP-level leadership.</li>
+          <li>Recognized as a Key Oracle Interviewer (Gold Badge); conducted 190+ interviews across campus, datacenter, and engineering-blitz hiring, and mentored engineers toward Key Interviewer certification.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <div class="rh"><span class="rt">Software Development Manager</span><span class="rd">Nov 2021 – Aug 2024</span></div>
+        <div class="rl">Seattle, WA · Hybrid</div>
+        <ul>
+          <li>Managed a 12-engineer Data Plane team for the OCI Streaming Service within the Messaging Platform, delivering an append-only log service that provides a fully managed, scalable, and durable solution for ingesting and consuming high-volume data streams in real time.</li>
+          <li>Owned end-to-end delivery, reliability, and on-call operations for a high-throughput streaming platform serving enterprise workloads.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <div class="rh"><span class="rt">Principal Member of Technical Staff</span><span class="rd">Jan 2020 – Nov 2021</span></div>
+        <div class="rl">Redwood Shores, CA</div>
+        <ul>
+          <li>Tech lead for the Platform team in the SaaS OCI Cloud Platform, building a platform-based Control Plane for onboarding SaaS services into OCI.</li>
+          <li>Designed and improved the onboarding process, scaling it to support 40+ SaaS services within a single year.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <div class="rh"><span class="rt">Senior Member of Technical Staff</span><span class="rd">Oct 2016 – Jan 2020</span></div>
+        <div class="rl">Redwood Shores, CA</div>
+        <ul>
+          <li>Re-architected promotion-account provisioning to create critical entities first (tenancy, cloud account) with lazy creation of remaining entities — reducing latency from ~10 minutes to a p99 of 30 seconds while targeting 10,000 accounts/hour; featured at Oracle OpenWorld 2019.</li>
+          <li>Member of the founding team onboarding Oracle SaaS offerings (HCM, ERP, CRM, SCM) into OCI across the UK and US, including UCM onboarding for Exadata and multiple Cloud@Customer projects.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="company reveal">
+      <div class="company-head"><span class="cn">IBM — IBM Watson</span><span class="cl">Littleton, MA</span></div>
+      <div class="role">
+        <div class="rh"><span class="rt">Staff Software Engineer, IBM Watson</span><span class="rd">Jul 2014 – Sep 2016</span></div>
+        <ul>
+          <li>Built and maintained indices, dictionaries, and annotations consumed by Core Watson at runtime within the ingestion pipeline.</li>
+          <li>Developed a scalable Document Conversion Service on the Netflix OSS stack in the IBM Watson Developer Cloud, exposing APIs to convert Word, PDF, and HTML into formats usable by downstream Watson services such as Retrieve and Rank.</li>
+          <li>Contributed to the NLP pipeline for Watson Health, supporting clinical/medical use cases for a Boston-area health institution.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="company reveal">
+      <div class="company-head"><span class="cn">Deloitte</span><span class="cl">Mumbai, India</span></div>
+      <div class="role">
+        <div class="rh"><span class="rt">Business Technology Analyst</span><span class="rd">Jun 2011 – Jul 2013</span></div>
+        <ul>
+          <li>Delivered and maintained web applications for enterprise and US public-sector clients using J2SE, Struts 2, Hibernate, Spring, JSF, AJAX, JavaScript, and HTML.</li>
+          <li>Built solutions on rules-engine platforms (Blaze Advisor, Corticon) for US public-sector engagements.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="expertise">
+  <div class="wrap">
+    <div class="seclabel reveal"><span class="num">03</span> / Expertise</div>
+    <h2 class="sec reveal">Core competencies</h2>
+    <div class="exp-group reveal">
+      <h3>Engineering Leadership</h3>
+      <div class="tags">
+        <span class="tag">People management</span><span class="tag">Hiring &amp; technical interviewing</span><span class="tag">Mentoring &amp; team growth</span><span class="tag">Cross-functional collaboration</span><span class="tag">Technical strategy &amp; roadmap</span><span class="tag">Delivery &amp; on-call operations</span>
+      </div>
+    </div>
+    <div class="exp-group reveal">
+      <h3>Domains</h3>
+      <div class="tags">
+        <span class="tag">Distributed systems</span><span class="tag">Cloud infrastructure</span><span class="tag">Real-time data streaming</span><span class="tag">Kubernetes &amp; cloud-native</span><span class="tag">SaaS control / data planes</span><span class="tag">Multi-tenant HA services</span><span class="tag">AI/ML &amp; NLP</span>
+      </div>
+    </div>
+    <div class="exp-group reveal">
+      <h3>Technologies</h3>
+      <div class="tags">
+        <span class="tag">Java</span><span class="tag">C++</span><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Apache Kafka</span><span class="tag">Kubernetes</span><span class="tag">Spring</span><span class="tag">Hibernate</span><span class="tag">Netflix OSS</span><span class="tag">Oracle Cloud Infrastructure</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="seclabel reveal"><span class="num">04</span> / Education</div>
+    <h2 class="sec reveal">Foundations</h2>
+    <div class="edu">
+      <div class="edu-card reveal"><div class="yr">2013 – 2014</div><div class="inst">Cornell University</div><div class="deg">Master's Degree (M.Eng.), Computer Science · GPA 3.7</div></div>
+      <div class="edu-card reveal"><div class="yr">2008 – 2011</div><div class="inst">Veermata Jijabai Technological Institute (VJTI)</div><div class="deg">B.Tech, Computer Engineering · GPA 3.9</div></div>
+      <div class="edu-card reveal"><div class="yr">2005 – 2008</div><div class="inst">Vivekanand Institute's Polytechnic</div><div class="deg">Diploma, Computer Science · 83.96% — 1st in college, 3rd in Maharashtra state</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="awards">
+  <div class="wrap">
+    <div class="seclabel reveal"><span class="num">05</span> / Recognition</div>
+    <h2 class="sec reveal">Honors &amp; awards</h2>
+    <div class="awards">
+      <div class="award reveal"><span class="ico">★</span><p>Spot Award for individual performance on a client-based financial services project — Deloitte (2012).</p></div>
+      <div class="award reveal"><span class="ico">★</span><p>Medal of Recognition — Deloitte, for volunteering with Teach For India (TFI) (2012–2013).</p></div>
+      <div class="award reveal"><span class="ico">★</span><p>Ratan Tata National Scholarship (2009) and J.R.D. Tata National Scholarship (2010–2011).</p></div>
+      <div class="award reveal"><span class="ico">★</span><p>3rd in Maharashtra state and 1st in college — Final-year Diploma, Computer Technology (2008).</p></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2 class="reveal">Let's build something <span>reliable.</span></h2>
+    <p class="sub reveal">Open to senior engineering leadership conversations.</p>
+    <div class="cta reveal">
+      <a class="btn ghost" href="https://www.linkedin.com/in/aditya-gaitonde-ba047317" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn ghost" href="https://github.com/adityagai" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="copy">© <span id="yr"></span> Aditya Gaitonde · Seattle, WA · Built with care.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // nav background on scroll
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting){ e.target.style.transitionDelay = (Math.min(i,4)*60)+'ms'; e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // distributed-systems node network
+  const cv = document.getElementById('nodes'), ctx = cv.getContext('2d');
+  let w, h, nodes, raf;
+  const COUNT = 46;
+  function resize(){ w = cv.width = innerWidth; h = cv.height = innerHeight; }
+  function init(){
+    resize();
+    nodes = Array.from({length: COUNT}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-.5)*0.28, vy: (Math.random()-.5)*0.28,
+      r: Math.random()*1.8 + 0.8
+    }));
+  }
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    for (let i=0;i<nodes.length;i++){
+      const n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x<0||n.x>w) n.vx*=-1;
+      if (n.y<0||n.y>h) n.vy*=-1;
+      for (let j=i+1;j<nodes.length;j++){
+        const m = nodes[j], dx=n.x-m.x, dy=n.y-m.y, d=Math.hypot(dx,dy);
+        if (d<140){
+          ctx.strokeStyle = `rgba(95,227,198,${(1-d/140)*0.22})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(m.x,m.y); ctx.stroke();
+        }
+      }
+      ctx.fillStyle = 'rgba(130,210,255,0.6)';
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,7); ctx.fill();
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    init(); tick();
+    addEventListener('resize', () => { cancelAnimationFrame(raf); init(); tick(); });
+  }
+</script>
+</body>
+</html>
